@@ -2,8 +2,11 @@
 import pygame
 import random
 import sys
+#esto es un modulo para interactuar con el sistema operativo (para obtener direcciones y no tener que escribir a mano)
+import os
 
-
+#directorio para cargar las imagenes
+BASE_DIR = os.path.dirname(__file__)
 #aca se inicializa pygame con la función init()
 pygame.init()
 
@@ -20,10 +23,12 @@ pygame.display.set_caption("Dragon List")
 # Función para cargar las imágenes
 # donde nombre es el nombre de la imagen
 # hay que recordar poner bien el formato de la imagen (png, jpg, etc)
+#ahora se cargan las imagenes de forma relativa, también se le pasa por parámetro el nombre
 def cargar_img(nombre):
-    #como todas las imagenes son png se pueden cargar todas junaas con load(), asi no se tienen que pasar de a una
-    #100, 140 es el tamaño de las cartas
-    return pygame.transform.scale(pygame.image.load(f"v_4/imagenes/{nombre}.png"), (100, 140))
+    #se pide la ruta relativa guardada en el sistema
+    ruta_imagen = os.path.join(BASE_DIR, "imagenes", f"{nombre}.png")
+    #aca queda igual que la anterior
+    return pygame.transform.scale(pygame.image.load(ruta_imagen), (100, 140))
 
 #nombres de las cartas, dentro de la carpeta imagenes
 #ese nombre es el que se le pasa a la función como parametro para que las muestre
@@ -37,9 +42,10 @@ IMAGENES_CARTAS = {
     "carta_de_relleno": cargar_img("carta_relleno")
 }
 
-#lo mismo que arriba, pero con el jugador 2
+#lo mismo que arriba pero con el jugador 2
 def cargar_img_jug2(nombre):
-    return pygame.transform.scale(pygame.image.load(f"v_4/imagenes_p_2/{nombre}.png"), (100, 140))
+    ruta_imagen = os.path.join(BASE_DIR, "imagenes_p_2", f"{nombre}.png")
+    return pygame.transform.scale(pygame.image.load(ruta_imagen), (100, 140))
 
 #se llama a las mismas funciones
 #los nombres de las cartas son iguales
@@ -55,10 +61,19 @@ IMAGENES_CARTAS_JUG2 = {
 
 #endregion
 
-#se carga la imagen de fondo, el ancho y el alto estan en ancho, alto (es decir que no se definen aca)
-FONDO = pygame.transform.scale(pygame.image.load("v_4/imagenes/fondo.jpg"), (ANCHO, ALTO))
-#aca si se definen el ancho y el alto
-MAZO_IMG = pygame.transform.scale(pygame.image.load("v_4/imagenes/mazo.png"), (100, 140))
+
+#lo único que se cambió es agregar la dirección relativa del fondo. El ancho y el alto quedan iguales.
+FONDO = pygame.transform.scale(
+    pygame.image.load(os.path.join(BASE_DIR, "imagenes", "fondo.jpg")),
+    (ANCHO, ALTO)
+)
+
+#igual que arriba pero con el mazo.
+MAZO_IMG = pygame.transform.scale(
+    pygame.image.load(os.path.join(BASE_DIR, "imagenes", "mazo.png")),
+    (100, 140)
+)
+
 
 # Vidas del juego, en este caso son números para que sea mas facil hacer los calculos
 # es importante separarlas para no agregar una capa de lógica extra
